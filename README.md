@@ -133,9 +133,9 @@ CIS_PM_Generator is free to use, modify, and integrate into personal or commerci
 
 However, **proper attribution is required**.
 
-If your project, aircraft, or publication incorporates this tool, you must include the following credit:
+If your project, aircraft, or publication used this tool, you must include the following credit:
 
-> **"This project uses the CIS_PM_Generator tool developed by Emilio Hernandez (Capt. Iceman)."**
+> **"3D Flight Model created with the help of the CIS_PM_Generator tool developed by Emilio Hernandez (Capt. Iceman)."**
 
 See the `LICENSE` file for full details.
 
@@ -152,3 +152,4 @@ JetstreamFS.com
 ## 💬 Support
 
 Open an issue on GitHub for help, debugging, or feature requests.
+
