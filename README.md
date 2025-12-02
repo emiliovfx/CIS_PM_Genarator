@@ -1,192 +1,154 @@
----
+# **CIS_PM_Generator**
 
-# **OBJ2PM Bodies Engine**
+CIS_PM_Generator is a specialized tool designed for **X-Plane aircraft developers** to convert **3D fuselage and wing meshes** from Blender (.obj) into **valid Plane-Maker body definitions**.  
+It automates the extraction, cleaning, station generation, vertex mapping, and output of Plane-Maker compatible geometry—removing hours of manual work per aircraft.
 
-### *Topology-Driven Body Reconstruction for X-Plane Plane-Maker*
-
----
-
-## 📌 Overview
-
-The **OBJ2PM Bodies Engine** converts Blender-exported `.obj` meshes into complete, Plane-Maker-compatible body blocks (`_body/n`) using a robust **topology-driven method** that mimics Blender’s edge-loop logic.
-
-This produces **accurate, stable, PM-ready geometry** for fuselages, engine cowlings, tail fairings, and any symmetrical aircraft body mesh.
-
-The output is a **1:1 structural match** to Plane-Maker’s serialized format.
+This tool is part of the **CIS (Captain Iceman Series) Flight Model Pipeline**, used internally to build high‑accuracy aircraft such as the CIS Seneca II, CIS Seminole, and CIS Navajo Chieftain.
 
 ---
 
-# 🖼️ Diagrams
+## ✨ Features
 
-Visual explanations of the OBJ2PM body pipeline:
+### ✔ OBJ → Plane‑Maker Body Generator
+- Reads fuselage or nacelle meshes directly from a Blender-exported OBJ.
+- Handles:
+  - Symmetrical meshes centered on the **X‑axis**
+  - Off‑center meshes with lateral offsets
+  - Tail fairings with **non‑uniform vertex loops**
+  - Mesh groups with arbitrary naming
+- Automatically detects:
+  - Number of stations
+  - Vertices per loop
+  - Tip and tail single-vertex stations
+  - Correct winding order for Plane‑Maker
 
-### **1. BFS Station Layering**
+### ✔ Wing Generator Module
+- Converts wing geometry into Plane-Maker wing definitions.
+- Properly assigns:
+  - `part_x`
+  - `part_y`
+  - `part_z`
+- Supports:
+  - Paired wing generation (wing1/wing2)
+  - Dihedral angle inputs
+  - Wing log tables shown in GUI
 
-*Stations i=0..N detected by topological distance from nose to tail.*
+### ✔ Interactive GUI
+- Select OBJ and ACF files  
+- Choose mesh groups directly from the OBJ  
+- Real‑time logs and geometry validation  
+- Show station/vertex assignments  
+- Multi‑body aircraft support (fuselage, cowlings, fairings, nacelles, etc.)
 
-![BFS Layering](./OBJ2PM_BFS_Layers.svg)
-
----
-
-### **2. Full OBJ → PM Data Flow**
-
-*Top → bottom pipeline from Blender OBJ to final PM-friendly `_body/n` block.*
-
-![Data Flow](./OBJ2PM_DataFlow.svg)
-
----
-
-### **3. Station Ring j-Winding (0–17)**
-
-*j=0 top, j=1..7 right, j=8 bottom, j=9..17 mirrored left.*
-
-![j Winding](./OBJ2PM_J_Winding.svg)
-
----
-
-### **4. j Filling & Station Padding**
-
-*How mid-rings with 8–16 verts fill j slots, how tip/tail collapse all j, and how empty stations get `0,0,0`.*
-
-![j Filling & Stations](./OBJ2PM_J_Filling_Stations.svg)
-
----
-
-# 🎯 Features
-
-* Topology-based (BFS) station detection
-* Blender-accurate ring ordering via `atan2`
-* Full 18-slot PM j-ring generation
-* Automatic `_part_x`, `_part_rad`, `_r_dim`, `_s_dim`
-* Perfect PM i/j ordering
-* Template-driven 1:1 body block reconstruction
-* Multi-mesh OBJ support
-* Zero cropping or clamping in Plane-Maker
+### ✔ Automatic ACF Reinjection
+- Rebuilds the entire **BODIES** section in the .acf  
+- Deletes old body blocks and reinserts clean, newly generated ones  
+- Guarantees synchronization between geometry and X-Plane’s flight model  
 
 ---
 
-# 🧠 Mesh Requirements
+## 🧠 How It Works
 
-1. One vertex at **nose** (min Z)
-2. One vertex at **tail** (max Z)
-3. Mid rings: **8–16 vertices**
-4. Continuous topology (no broken loops)
-5. Mesh may be offset in **X**
-6. Up to ~20 BFS layers (stations)
+1. **Mesh recentering**  
+   Detects off‑axis meshes and recenters them in PM coordinates.
 
----
+2. **Symmetry plane slicing**  
+   Keeps positive X‑axis and centerline vertices.
 
-# 🔍 How It Works
+3. **Station builder**  
+   - Detects loops  
+   - Handles 1‑vertex tip/tail stations  
+   - Normalizes irregular loops  
+   - Computes correct PM winding order  
 
-## **1. Build Mesh Topology**
+4. **Body line generator**  
+   Produces:  
+   - `P _body/N/_station/M`  
+   - `P _body/N/_vert/M`  
+   - Complete body header blocks  
 
-* Parse OBJ vertices and faces
-* Build adjacency list (graph)
-
-## **2. BFS Station Detection**
-
-* BFS from nose vertex
-* BFS distance = station id
-* Last BFS layer → tail vertex
-
-## **3. Build j-Rings**
-
-For each station:
-
-* Extract half-ring (X ≥ 0)
-* Sort using `atan2(y, x)`
-* Fill j=0..8 (mesh → fill bottom centerline)
-* Mirror j=9..17
-
-## **4. Compute PM Parameters**
-
-```
-_part_x   = lateral centroid
-_part_rad = max(|x|,|y|) + 1 ft
-_r_dim    = 2 * half_n_max
-_s_dim    = len(stations)
-```
-
-## **5. Fill PM Template**
-
-* Load neutral zeroed `_body/b` template
-* Replace header params
-* Insert all `_geo_xyz/i,j,k` values
-* Maintain PM-native ordering
+5. **ACF writer**  
+   - Outputs a new bodies section  
+   - Reinserts into target .acf cleanly  
 
 ---
 
-# 🧪 Validation
+## 🔧 Installation
 
-Successfully tested on 4 meshes:
-
-* Fuselage
-* Left cowling
-* Right cowling
-* Tail fairing
-
-Results:
-
-* Correct topology rings
-* Accurate j-winding
-* No PM cropping after `_part_rad` fix
-* Perfect visual match in Plane-Maker
-* Deterministic, repeatable outputs
-
----
-
-# 🛠 Installation
-
+### Prerequisites
 ```bash
-git clone https://github.com/YOURNAME/OBJ2PM-Bodies-Engine.git
-cd OBJ2PM-Bodies-Engine
-pip install -r requirements.txt
+python 3.10+
+pip install numpy
 ```
 
----
-
-# 🚀 Usage
-
-Generate body blocks:
-
+### Clone
 ```bash
-python obj2pm_build_bodies.py --obj bodies.obj
+git clone https://github.com/emiliovfx/CIS_PM_Generator.git
+cd CIS_PM_Generator
 ```
 
-Rebuild `.acf`:
-
+### Run
 ```bash
-python obj2pm_build_bodies.py --obj bodies.obj --acf input.acf --write
+python cis_PMGenerator.py
 ```
-
-Outputs:
-
-```
-body_0_full_block.txt
-body_1_full_block.txt
-body_2_full_block.txt
-body_3_full_block.txt
-```
-
-Paste these blocks into the `.acf` or let the script auto-inject them.
 
 ---
 
-# 🤝 Contributing
-
-Contributions welcome! Ideas:
-
-* GUI tools
-* 3D preview of rings
-* OBJ export of PM bodies
-* Mesh topology diagnostics
-
----
-
-# 📄 License
-
-MIT — free to use, modify, and integrate into your aircraft pipelines.
+## 🖥 GUI Overview
+- **OBJ Path** – Select fuselage/wings OBJ  
+- **ACF Path** – Select aircraft ACF  
+- **Body Index** – Choose which body to generate  
+- **Mesh Group Selector** – Choose fuselage or wing meshes  
+- **Logs** – Shows station detection, winding, offsets  
+- **Generate** – Builds & injects body blocks  
 
 ---
 
+## 📁 Project Structure
+```
+CIS_PM_Generator/
+│
+├── cis_PMGenerator.py       # Main GUI
+├── bodies_module.py         # Fuselage generator engine
+├── wings_module.py          # Wing generator engine
+├── templates/               # Zeroed templates
+└── output/                  # Generated ACF files
+```
 
+---
+
+## 🛠 Development Status
+- ✔ Stable fuselage body generation  
+- ✔ Stable wing generation  
+- ✔ Multi‑mesh OBJ support  
+- ✔ GUI system complete  
+- ⏳ Preparing for Blender 4.5 add‑on port  
+- ⏳ Further tests with complex geometries  
+
+---
+
+## 📜 License (Attribution Required)
+
+CIS_PM_Generator is free to use, modify, and integrate into personal or commercial X‑Plane aircraft development workflows.
+
+However, **proper attribution is required**.
+
+If your project, aircraft, or publication incorporates this tool, you must include the following credit:
+
+> **"This project uses the CIS_PM_Generator tool developed by Emilio Hernandez (Capt. Iceman)."**
+
+See the `LICENSE` file for full details.
+
+---
+
+## ✈ Author
+
+**Emilio Hernandez (Capt. Iceman)**  
+Developer of the CIS Flight Model Series  
+JetstreamFS.com
+
+---
+
+## 💬 Support
+
+Open an issue on GitHub for help, debugging, or feature requests.
