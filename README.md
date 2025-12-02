@@ -69,7 +69,12 @@ This tool is part of the **CIS (Captain Iceman Series) Flight Model Pipeline**, 
 
 5. **ACF writer**  
    - Outputs a new bodies section  
-   - Reinserts into target .acf cleanly  
+   - Reinserts into target .acf cleanly
+  
+6. **User's Guide**  
+   - Inside the UserGuide folder
+   - Guide for Blender, Tool and Plane Maker usage  
+   
 
 ---
 
@@ -120,10 +125,11 @@ CIS_PM_Generator/
 ## 🛠 Development Status
 - ✔ Stable fuselage body generation  
 - ✔ Stable wing generation  
-- ✔ Multi‑mesh OBJ support  
-- ✔ GUI system complete  
+- ✔ Multi‑mesh OBJ support Bodies and Wings
+- ✔ GUI system complete
+- ✔ Executable available at the releases.  
 - ⏳ Preparing for Blender 4.5 add‑on port  
-- ⏳ Further tests with complex geometries  
+ 
 
 ---
 
@@ -152,4 +158,5 @@ JetstreamFS.com
 ## 💬 Support
 
 Open an issue on GitHub for help, debugging, or feature requests.
+
 
