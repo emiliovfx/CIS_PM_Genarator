@@ -11,7 +11,7 @@ This tool is part of the **CIS (Captain Iceman Series) Flight Model Pipeline**, 
 
 ## ✨ Features
 
-### ✔ OBJ → Plane‑Maker Body Generator
+### ✔ OBJ → Plane‑Maker Body and Wings Generator
 - Reads fuselage or nacelle meshes directly from a Blender-exported OBJ.
 - Handles:
   - Symmetrical meshes centered on the **X‑axis**
@@ -146,6 +146,7 @@ JetstreamFS.com
 ## 💬 Support
 
 Open an issue on GitHub for help, debugging, or feature requests.
+
 
 
 
