@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="520">
+  <style>
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #222222; }
+    .subtitle { font-family: Arial, sans-serif; font-size: 13px; fill: #555555; }
+    .text { font-family: Arial, sans-serif; font-size: 11px; fill: #222222; }
+    .box { fill: #ffffff; stroke: #333333; stroke-width: 1.2; }
+    .tip { fill: #fff7d6; stroke: #d1a700; stroke-width: 1.2; }
+    .mid { fill: #e9f0ff; stroke: #4a6fbf; stroke-width: 1.2; }
+    .pad { fill: #fdfdfd; stroke: #bbbbbb; stroke-width: 1.0; stroke-dasharray: 4 3; }
+    .ringCellReal { fill: #e9f0ff; stroke: #4a6fbf; stroke-width: 1.0; }
+    .ringCellPad { fill: #fafafa; stroke: #bbbbbb; stroke-width: 1.0; stroke-dasharray: 3 3; }
+    .ringCellZero { fill: #ffffff; stroke: #dddddd; stroke-width: 1.0; stroke-dasharray: 2 2; }
+  </style>
+
+  <text x="20" y="30" class="title">Stations, j Filling, and Empty Slots</text>
+  <text x="20" y="52" class="subtitle">
+    Tip/tail single-vertex stations, mid rings with 8–16 verts, and zero-filled stations up to 20.
+  </text>
+
+  <!-- Tip / tail explanation -->
+  <rect x="40" y="80" width="330" height="180" rx="8" ry="8" class="box"/>
+  <text x="55" y="100" class="text"><tspan font-weight="bold">Tip and Tail Stations (i=0 and i = N-1)</tspan></text>
+  <text x="55" y="118" class="text">• Mesh has exactly 1 vertex at the nose and 1 at the tail.</text>
+  <text x="55" y="134" class="text">• For those stations we fill all j = 0..17 with the same (x,y,z).</text>
+  <text x="55" y="150" class="text">• In PM, that draws a collapsed ring (a point) at tip and tail.</text>
+
+  <!-- Tip ring -->
+  <circle cx="120" cy="190" r="34" class="tip"/>
+  <text x="120" y="188" text-anchor="middle" class="text">i=0</text>
+  <text x="120" y="204" text-anchor="middle" class="text">nose</text>
+  <text x="200" y="188" class="text">all 18 j slots</text>
+  <text x="200" y="204" class="text">= same vertex</text>
+
+  <!-- Tail ring -->
+  <circle cx="300" cy="190" r="34" class="tip"/>
+  <text x="300" y="188" text-anchor="middle" class="text">i=N-1</text>
+  <text x="300" y="204" text-anchor="middle" class="text">tail</text>
+
+  <!-- Mid-ring filling explanation -->
+  <rect x="400" y="80" width="700" height="210" rx="8" ry="8" class="box"/>
+  <text x="415" y="100" class="text"><tspan font-weight="bold">Mid Rings (8–16 verts) and j Filling</tspan></text>
+  <text x="415" y="118" class="text">• Mesh gives 8–16 vertices around a station ring.</text>
+  <text x="415" y="134" class="text">• We take half-ring X ≥ 0 (5–9 verts) and sort by atan2(y,x).</text>
+  <text x="415" y="150" class="text">• Real half-ring vertices go into j = 0..(half_n-1).</text>
+  <text x="415" y="166" class="text">• Remaining j on that side (up to j=8) are filled with the bottom-centerline vertex.</text>
+  <text x="415" y="182" class="text">• Then j = 0..8 is mirrored to j = 9..17 with x → -x.</text>
+
+  <!-- mini table explaining half_n -->
+  <text x="415" y="206" class="text">Examples (half_n = number of X ≥ 0 samples):</text>
+  <text x="415" y="224" class="text">half_n</text>
+  <text x="470" y="224" class="text">mesh j</text>
+  <text x="560" y="224" class="text">filled j (same side)</text>
+
+  <text x="415" y="240" class="text">5</text>
+  <text x="470" y="240" class="text">0..4</text>
+  <text x="560" y="240" class="text">5..8 = bottom centerline</text>
+
+  <text x="415" y="256" class="text">7</text>
+  <text x="470" y="256" class="text">0..6</text>
+  <text x="560" y="256" class="text">7..8 = bottom centerline</text>
+
+  <text x="415" y="272" class="text">9</text>
+  <text x="470" y="272" class="text">0..8</text>
+  <text x="560" y="272" class="text">no extra fill</text>
+
+  <text x="720" y="240" class="text">Left side j=9..17 is always the mirror</text>
+
+  <!-- Station padding explanation -->
+  <rect x="40" y="290" width="1060" height="200" rx="8" ry="8" class="box"/>
+  <text x="55" y="310" class="text"><tspan font-weight="bold">Station Count and Zero-Filled Stations</tspan></text>
+  <text x="55" y="328" class="text">• The mesh might produce S stations (e.g., S = 15 from BFS layers).</text>
+  <text x="55" y="344" class="text">• Plane-Maker body grid always has up to 20 stations: i = 0..19.</text>
+  <text x="55" y="360" class="text">• For i &lt; S: rings[i][j] are from the mesh (tip, mid, tail logic above).</text>
+  <text x="55" y="376" class="text">• For i ≥ S: all j = 0..17 are filled with (0,0,0) to pad out the template.</text>
+
+  <text x="400" y="332" class="text">station index i →</text>
+<rect x="400" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="415" y="369" text-anchor="middle" class="text">0</text>
+<rect x="432" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="447" y="369" text-anchor="middle" class="text">1</text>
+<rect x="464" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="479" y="369" text-anchor="middle" class="text">2</text>
+<rect x="496" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="511" y="369" text-anchor="middle" class="text">3</text>
+<rect x="528" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="543" y="369" text-anchor="middle" class="text">4</text>
+<rect x="560" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="575" y="369" text-anchor="middle" class="text">5</text>
+<rect x="592" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="607" y="369" text-anchor="middle" class="text">6</text>
+<rect x="624" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="639" y="369" text-anchor="middle" class="text">7</text>
+<rect x="656" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="671" y="369" text-anchor="middle" class="text">8</text>
+<rect x="688" y="350" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="703" y="369" text-anchor="middle" class="text">9</text>
+<rect x="400" y="390" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="415" y="409" text-anchor="middle" class="text">10</text>
+<rect x="432" y="390" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="447" y="409" text-anchor="middle" class="text">11</text>
+<rect x="464" y="390" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="479" y="409" text-anchor="middle" class="text">12</text>
+<rect x="496" y="390" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="511" y="409" text-anchor="middle" class="text">13</text>
+<rect x="528" y="390" width="30" height="30" rx="3" ry="3" class="ringCellReal"/>
+<text x="543" y="409" text-anchor="middle" class="text">14</text>
+<rect x="560" y="390" width="30" height="30" rx="3" ry="3" class="ringCellZero"/>
+<text x="575" y="409" text-anchor="middle" class="text">15</text>
+<rect x="592" y="390" width="30" height="30" rx="3" ry="3" class="ringCellZero"/>
+<text x="607" y="409" text-anchor="middle" class="text">16</text>
+<rect x="624" y="390" width="30" height="30" rx="3" ry="3" class="ringCellZero"/>
+<text x="639" y="409" text-anchor="middle" class="text">17</text>
+<rect x="656" y="390" width="30" height="30" rx="3" ry="3" class="ringCellZero"/>
+<text x="671" y="409" text-anchor="middle" class="text">18</text>
+<rect x="688" y="390" width="30" height="30" rx="3" ry="3" class="ringCellZero"/>
+<text x="703" y="409" text-anchor="middle" class="text">19</text>
+
+  <text x="400" y="438" class="text">blue cells = real stations i &lt; S (with tip/tail and j filling logic)</text>
+  <text x="400" y="454" class="text">dashed cells = padded stations i ≥ S → all j(0..17) = (0,0,0)</text>
+
+</svg>

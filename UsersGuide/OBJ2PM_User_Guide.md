@@ -31,7 +31,7 @@ For OBJ2PM to correctly detect the nose→tail direction through topology (BFS),
 - Z = vertical axis
 
 ### **Example Orientation**
-![Aircraft Orientation](image1.png)
+![Aircraft Orientation](images/image1.png)
 
 ---
 
@@ -63,7 +63,7 @@ These names appear in the GUI.
 
 Use these exact settings when exporting:
 
-![OBJ Export Settings](image2.png)
+![OBJ Export Settings](images/image2.png)
 
 Required:
 - ☑ **Selection Only**
@@ -165,7 +165,7 @@ There are two ways to use the new generated .acf file:
 2. You can import the bodies from the new generated .acf file into your current Plane Maker session using the "Import Aircraft Body" inside the Body # tab you are currently working.   This will import the corresponding body from your new generated .acf file.
 
 
-![PM Body import](image3.png)
+![PM Body import](images/image3.png)
 
 # **You are ready to use OBJ2PM to rebuild PM bodies automatically.**
 

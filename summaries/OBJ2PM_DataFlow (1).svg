@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430">
+  <style>
+    .box { fill: #ffffff; stroke: #333333; stroke-width: 1.5; }
+    .box2 { fill: #e9f0ff; stroke: #3556a8; stroke-width: 1.5; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #222222; }
+    .subtitle { font-family: Arial, sans-serif; font-size: 13px; fill: #555555; }
+    .text { font-family: Arial, sans-serif; font-size: 12px; fill: #222222; }
+    .edge { stroke: #666666; stroke-width: 1.5; marker-end: url(#arrowdf); }
+  </style>
+
+  <defs>
+    <marker id="arrowdf" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#666666" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="20" y="30" class="title">OBJ2PM — Full Bodies Data Flow</text>
+  <text x="20" y="52" class="subtitle">
+    From Blender-exported OBJ to final Plane-Maker body blocks.
+  </text>
+
+  <!-- Row 1: Geometry analysis -->
+  <!-- OBJ input -->
+  <rect x="40" y="90" width="180" height="80" rx="8" ry="8" class="box"/>
+  <text x="130" y="115" text-anchor="middle" class="text">Blender OBJ</text>
+  <text x="130" y="135" text-anchor="middle" class="text">verts + faces</text>
+
+  <!-- Topology builder -->
+  <rect x="260" y="90" width="210" height="80" rx="8" ry="8" class="box2"/>
+  <text x="365" y="115" text-anchor="middle" class="text">Topology Builder</text>
+  <text x="365" y="135" text-anchor="middle" class="text">vertex adjacency graph</text>
+
+  <!-- BFS stations -->
+  <rect x="520" y="90" width="240" height="80" rx="8" ry="8" class="box2"/>
+  <text x="640" y="115" text-anchor="middle" class="text">BFS Station Detection</text>
+  <text x="640" y="135" text-anchor="middle" class="text">nose → tail layers = stations i</text>
+
+  <!-- Ring builder -->
+  <rect x="820" y="90" width="260" height="80" rx="8" ry="8" class="box2"/>
+  <text x="950" y="112" text-anchor="middle" class="text">Ring Builder (per station)</text>
+  <text x="950" y="130" text-anchor="middle" class="text">half-rings (X ≥ 0), atan2 sort,</text>
+  <text x="950" y="148" text-anchor="middle" class="text">mirror &amp; pad to j = 0..17</text>
+
+  <!-- Arrows row 1 -->
+  <line x1="220" y1="130" x2="260" y2="130" class="edge"/>
+  <line x1="470" y1="130" x2="520" y2="130" class="edge"/>
+  <line x1="760" y1="130" x2="820" y2="130" class="edge"/>
+
+  <!-- Row 2: Parameters + template -->
+  <!-- Rings array -->
+  <rect x="80" y="230" width="230" height="80" rx="8" ry="8" class="box"/>
+  <text x="195" y="252" text-anchor="middle" class="text">PM Rings Array</text>
+  <text x="195" y="270" text-anchor="middle" class="text">rings[i][j] = (x,y,z)</text>
+  <text x="195" y="288" text-anchor="middle" class="text">+ half_n_max</text>
+
+  <!-- Parameters -->
+  <rect x="360" y="230" width="230" height="80" rx="8" ry="8" class="box2"/>
+  <text x="475" y="252" text-anchor="middle" class="text">Body Parameters</text>
+  <text x="475" y="270" text-anchor="middle" class="text">_part_x, _part_rad,</text>
+  <text x="475" y="288" text-anchor="middle" class="text">_r_dim, _s_dim</text>
+
+  <!-- Template -->
+  <rect x="640" y="230" width="230" height="80" rx="8" ry="8" class="box"/>
+  <text x="755" y="252" text-anchor="middle" class="text">Body Block Template</text>
+  <text x="755" y="270" text-anchor="middle" class="text">zeroed PM body, _body/b/...</text>
+
+  <!-- Filler -->
+  <rect x="920" y="230" width="230" height="80" rx="8" ry="8" class="box2"/>
+  <text x="1035" y="252" text-anchor="middle" class="text">Template Filler</text>
+  <text x="1035" y="270" text-anchor="middle" class="text">insert params + geo_xyz</text>
+  <text x="1035" y="288" text-anchor="middle" class="text">preserve PM ordering</text>
+
+  <!-- Arrows row 2 -->
+  <line x1="950" y1="170" x2="195" y2="230" class="edge"/>
+  <line x1="310" y1="270" x2="360" y2="270" class="edge"/>
+  <line x1="590" y1="270" x2="640" y2="270" class="edge"/>
+  <line x1="870" y1="270" x2="920" y2="270" class="edge"/>
+
+  <!-- Final PM block -->
+  <rect x="460" y="340" width="260" height="60" rx="8" ry="8" class="box"/>
+  <text x="590" y="365" text-anchor="middle" class="text">Final P _body/n/... block</text>
+  <text x="590" y="383" text-anchor="middle" class="text">ready to inject into .acf</text>
+
+  <line x1="1035" y1="310" x2="590" y2="340" class="edge"/>
+</svg>
