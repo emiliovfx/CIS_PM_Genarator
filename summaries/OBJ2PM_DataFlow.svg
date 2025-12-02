@@ -40,7 +40,7 @@
   <rect x="780" y="110" width="210" height="80" rx="8" ry="8" class="box2"/>
   <text x="885" y="132" text-anchor="middle" class="text">Ring Builder</text>
   <text x="885" y="148" text-anchor="middle" class="text">Half-rings (X ≥ 0), atan2 sort</text>
-  <text x="885" y="164" text-anchor="middle" class="text">Mirror & pad to j=0..17</text>
+  <text x="885" y="164" text-anchor="middle" class="text">Mirror and pad to j=0..17</text>
 
   <!-- Parameters -->
   <rect x="1040" y="110" width="140" height="80" rx="8" ry="8" class="box2"/>

@@ -1,5 +1,9 @@
 # **OBJ2PM Bodies Engine — Milestone Summary**
 ### *Topology-Driven Body Reconstruction for X-Plane Plane-Maker*
+![BFS Layering](./OBJ2PM_BFS_Layers.svg)
+![Data Flow](./OBJ2PM_DataFlow.svg`)
+![j Winding](./OBJ2PM_J_Winding.svg)
+![j Filling & Stations](./OBJ2PM_J_Filling_Stations.svg)
 
 ---
 
@@ -18,10 +22,10 @@ It replaces unreliable z-sorting techniques with a smart **topology-based ring s
 # **📌 Diagrams**
 
 ## **BFS Layering Structure**
-![BFS Layering](OBJ2PM_BFS_Layers.svg)
+![BFS Layering](./OBJ2PM_BFS_Layers.svg)
 
 ## **Full OBJ → PM Data Flow**
-![Data Flow](OBJ2PM_DataFlow.svg)
+
 
 *(Ensure the SVG files are stored next to this markdown or adjust the paths accordingly.)*
 
