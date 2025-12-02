@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420">
+  <style>
+    .circle { fill: #ffffff; stroke: #333333; stroke-width: 1.5; }
+    .top { fill: #fffae6; }
+    .bottom { fill: #e6fff2; }
+    .right { fill: #e9f0ff; }
+    .left { fill: #f9e6ff; }
+    .label { font-family: Arial, sans-serif; font-size: 11px; fill: #111111; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #222222; }
+    .subtitle { font-family: Arial, sans-serif; font-size: 13px; fill: #555555; }
+    .arrow { stroke: #777777; stroke-width: 1.2; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#777777" />
+    </marker>
+  </defs>
+
+  <text x="20" y="30" class="title">Station Ring j-Winding</text>
+  <text x="20" y="52" class="subtitle">
+    j indices 0..17 around the cross-section: top, right side, bottom, mirrored left side.
+  </text>
+
+  <!-- Main circle ring -->
+  <circle cx="450" cy="210" r="150" fill="#fafafa" stroke="#cccccc" stroke-width="1.5"/>
+
+  <!-- j positions on left half (0..8) -->
+  <!-- top centerline j=0 -->
+  <circle cx="450" cy="60" r="14" class="circle top"/>
+  <text x="450" y="64" text-anchor="middle" class="label">j=0</text>
+  <text x="450" y="80" text-anchor="middle" class="label">top</text>
+
+  <!-- right side j=1..7 distributed along right arc -->
+  <!-- We'll place j=1..7 on the right quadrant, j=8 bottom centerline -->
+  <!-- j=1 -->
+  <circle cx="540" cy="90" r="12" class="circle right"/>
+  <text x="540" y="94" text-anchor="middle" class="label">1</text>
+  <!-- j=2 -->
+  <circle cx="595" cy="145" r="12" class="circle right"/>
+  <text x="595" y="149" text-anchor="middle" class="label">2</text>
+  <!-- j=3 -->
+  <circle cx="620" cy="210" r="12" class="circle right"/>
+  <text x="620" y="214" text-anchor="middle" class="label">3</text>
+  <!-- j=4 -->
+  <circle cx="595" cy="275" r="12" class="circle right"/>
+  <text x="595" y="279" text-anchor="middle" class="label">4</text>
+  <!-- j=5 -->
+  <circle cx="540" cy="330" r="12" class="circle right"/>
+  <text x="540" y="334" text-anchor="middle" class="label">5</text>
+  <!-- j=6 -->
+  <circle cx="480" cy="350" r="12" class="circle right"/>
+  <text x="480" y="354" text-anchor="middle" class="label">6</text>
+  <!-- j=7 -->
+  <circle cx="420" cy="350" r="12" class="circle right"/>
+  <text x="420" y="354" text-anchor="middle" class="label">7</text>
+
+  <!-- bottom centerline j=8 -->
+  <circle cx="450" cy="360" r="14" class="circle bottom"/>
+  <text x="450" y="364" text-anchor="middle" class="label">j=8</text>
+  <text x="450" y="380" text-anchor="middle" class="label">bottom</text>
+
+  <!-- Mirrored side j=9..17 on left half -->
+  <!-- j=9 (mirror of j=0 top) -->
+  <circle cx="450" cy="60" r="8" class="circle left" opacity="0.0"/>
+  <!-- j=9 actual label in legend instead -->
+  <!-- Real left indices: -->
+  <circle cx="360" cy="90" r="12" class="circle left"/>
+  <text x="360" y="94" text-anchor="middle" class="label">9</text>
+
+  <circle cx="305" cy="145" r="12" class="circle left"/>
+  <text x="305" y="149" text-anchor="middle" class="label">10</text>
+
+  <circle cx="280" cy="210" r="12" class="circle left"/>
+  <text x="280" y="214" text-anchor="middle" class="label">11</text>
+
+  <circle cx="305" cy="275" r="12" class="circle left"/>
+  <text x="305" y="279" text-anchor="middle" class="label">12</text>
+
+  <circle cx="360" cy="330" r="12" class="circle left"/>
+  <text x="360" y="334" text-anchor="middle" class="label">13</text>
+
+  <circle cx="420" cy="350" r="12" class="circle left"/>
+  <text x="420" y="354" text-anchor="middle" class="label">14</text>
+
+  <circle cx="480" cy="350" r="12" class="circle left"/>
+  <text x="480" y="354" text-anchor="middle" class="label">15</text>
+
+  <circle cx="540" cy="330" r="12" class="circle left" opacity="0.0"/>
+  <!-- we'll represent j=16,17 in legend -->
+
+  <!-- Direction arrow -->
+  <path d="M450,40 C570,40 640,100 640,210" fill="none" class="arrow"/>
+  <text x="660" y="70" class="label">increasing j (left half)</text>
+
+  <!-- Legend -->
+  <rect x="40" y="290" width="200" height="100" rx="8" ry="8" fill="#fafafa" stroke="#cccccc"/>
+  <text x="50" y="310" class="label">Legend:</text>
+  <text x="60" y="328" class="label">j=0 → top centerline</text>
+  <text x="60" y="344" class="label">j=1..7 → right side</text>
+  <text x="60" y="360" class="label">j=8 → bottom centerline</text>
+  <text x="60" y="376" class="label">j=9..17 → mirrored left side</text>
+</svg>
